@@ -640,10 +640,10 @@ export default defineConfig({
 ```
 
 否则快照中会出现大量转义的 `"` 字符。
-<!-- TODO: translation -->
-### Custom Snapshot Matchers <Badge type="warning">experimental</Badge> <Version>4.1.3</Version>
 
-Jest imports snapshot composables from `jest-snapshot`. In Vitest, use `Snapshots` from `vitest` instead:
+### 自定义快照匹配器 <Badge type="warning">experimental</Badge> <Version>4.1.3</Version> {#custom-snapshot-matchers}
+
+Jest 从 `jest-snapshot` 导入快照组合式 API。在 Vitest 中，改用来自 `vitest` 的 `Snapshots`：
 
 ```ts
 const { toMatchSnapshot } = require('jest-snapshot') // [!code --]
@@ -657,7 +657,7 @@ expect.extend({
 })
 ```
 
-For inline snapshots, the same applies:
+对于内联快照，同样适用：
 
 ```ts
 const { toMatchInlineSnapshot } = require('jest-snapshot') // [!code --]
@@ -671,7 +671,7 @@ expect.extend({
 })
 ```
 
-See [Custom Snapshot Matchers](/guide/snapshot#custom-snapshot-matchers) for the full guide.
+全部内容请参阅 [自定义快照匹配器](/guide/snapshot#custom-snapshot-matchers)。
 
 ## 从 Mocha + Chai + Sinon 迁移 {#mocha-chai-sinon}
 

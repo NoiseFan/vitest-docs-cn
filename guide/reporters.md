@@ -166,7 +166,7 @@ export default defineConfig({
 
 除此之外，`verbose` 报告器会立即打印测试错误消息。完整的测试错误会在测试运行结束时报告。
 
-这是唯一一个在测试未失败时报告[注解](/guide/test-annotations)的终端报告器。
+这是唯一一个在测试未失败时报告 [注解](/guide/test-annotations) 的终端报告器。
 
 :::code-group
 
@@ -423,8 +423,8 @@ JSON 报告示例:
 ::: info
 自Vitest 3 起，如果启用了代码覆盖率功能，JSON 报告器会在 `coverageMap` 中包含覆盖率信息。
 :::
-<!-- TODO: translation -->
-The `meta` field in each assertion result can be filtered via the `filterMeta` reporter option. It receives the key and value of each field and should return a falsy value to exclude the field from the report:
+
+可通过 `filterMeta` 报告器选项筛选断言结果中的 `meta` 字段。该选项接收每个字段的键值对，如果返回 false 则将该字段排除在报告外：
 
 ```ts
 export default defineConfig({
@@ -460,12 +460,12 @@ export default defineConfig({
 :::
 
 ::: tip
-该报告器需要安装 [`@vitest/ui`](/guide/ui) 。
+该报告器需要安装 [`@vitest/ui`](/guide/ui)。
 :::
 
 ### TAP 报告器 {#tap-reporter}
 
-按照 [Test Anything Protocol](https://testanything.org/) (TAP)输出报告。
+按照 [Test Anything Protocol](https://testanything.org/)(TAP)输出报告。
 
 :::code-group
 
@@ -608,13 +608,13 @@ export default defineConfig({
   },
 })
 ```
-<!-- TODO: translation -->
-The GitHub Actions reporter automatically generates a [Job Summary](https://github.blog/news-insights/product-news/supercharging-github-actions-with-job-summaries/) with an overview of your test results. The summary includes test file and test case statistics, and highlights flaky tests that required retries.
+
+GitHub Actions 报告器会自动生成包含测试结果摘要的 [Job Summary](https://github.blog/news-insights/product-news/supercharging-github-actions-with-job-summaries/)。摘要包含测试文件和测试用例的统计信息，并高亮显示需要重试的 flaky 测试。
 
 <img alt="GitHub Actions Job Summary" img-dark src="/github-actions-job-summary-dark.png">
 <img alt="GitHub Actions Job Summary" img-light src="/github-actions-job-summary-light.png">
 
-The job summary is enabled by default and writes to the path specified by `$GITHUB_STEP_SUMMARY`. You can override it by using the `jobSummary.outputPath` option:
+Job Summary 默认启用，写入 `$GITHUB_STEP_SUMMARY` 指定的路径。你可以通过 `jobSummary.outputPath` 选项来覆盖它：
 
 ```ts
 export default defineConfig({
@@ -630,7 +630,7 @@ export default defineConfig({
 })
 ```
 
-To disable the job summary:
+要禁用 job summary：
 
 ```ts
 export default defineConfig({
@@ -642,15 +642,15 @@ export default defineConfig({
 })
 ```
 
-The flaky tests section of the summary includes permalink URLs that link test names directly to the relevant source lines on GitHub. These links are generated automatically using environment variables that GitHub Actions provides (`$GITHUB_REPOSITORY`, `$GITHUB_SHA`, and `$GITHUB_WORKSPACE`), so no configuration is needed in most cases.
+摘要中的 "不稳定测试" 部分包含永久链接，可将测试名称直接关联到 GitHub 上的对应源码行。这些链接通过 GitHub Actions 提供的环境变量（`$GITHUB_REPOSITORY`、`$GITHUB_SHA` 和 `$GITHUB_WORKSPACE`）自动生成，因此在大多数情况下无需额外配置。
 
-If you need to override these values — for example, when running in a container or a custom environment — you can customize them via the `fileLinks` option:
+如需覆盖这些默认值（例如在容器或自定义环境中运行时），可通过 `fileLinks` 选项进行自定义配置：
 
-- `repository`: the GitHub repository in `owner/repo` format. Defaults to `process.env.GITHUB_REPOSITORY`.
-- `commitHash`: the commit SHA to use in permalink URLs. Defaults to `process.env.GITHUB_SHA`.
-- `workspacePath`: the absolute path to the root of the repository on disk. Used to compute relative file paths for the permalink URLs. Defaults to `process.env.GITHUB_WORKSPACE`.
+- `repository`：GitHub 仓库地址，采用 `owner/repo` 格式。默认值为 `process.env.GITHUB_REPOSITORY`
+- `commitHash`：用于生成永久链接的提交哈希值。默认值为 `process.env.GITHUB_SHA`
+- `workspacePath`：仓库根目录的绝对路径，用于计算永久链接中的相对文件路径。默认值为 `process.env.GITHUB_WORKSPACE`
 
-All three values must be available for the links to be generated.
+必须同时提供这三个参数值才能生成有效链接。
 
 ```ts
 export default defineConfig({
@@ -670,14 +670,14 @@ export default defineConfig({
 })
 ```
 
-### Minimal Reporter
+### 最小化报告器 {#minimal-reporter}
 
-- **Alias:** `agent`
+- **别名:** `agent`
 
-Outputs a minimal report containing only failed tests and their error messages. Console logs from passing tests and the summary section are also suppressed.
+输出仅包含失败测试及其错误消息的精简报告。通过测试的控制台日志和总结部分将被隐藏。
 
-::: tip Agent Reporter
-This reporter is well optimized for AI coding assistants and LLM-based workflows to reduce token usage. It is automatically enabled when no `reporters` option is configured and Vitest detects it is running inside an AI coding agent. If you configure custom reporters, you can explicitly add `minimal` or `agent`:
+::: tip Agent 报告器
+该报告器专为 AI编程助手 和基于 LLM 的工作流优化，可显著减少词元消耗。当未配置 `reporters` 选项且 Vitest 检测到运行在 AI 编程环境中时，将自动启用此报告器。如果需配置自定义报告器，可显式添加 `minimal` 或 `agent`：
 
 :::code-group
 ```bash [CLI]
@@ -693,7 +693,8 @@ export default defineConfig({
 ```
 :::
 
-### Blob 报告器
+
+### Blob 报告器 {#blob-reporter}
 
 将测试结果存储在计算机上，以便以后可以使用 [`--merge-reports`](/guide/cli#merge-reports) 命令进行合并。
 默认情况下，将所有结果存储在 `.vitest-reports` 文件夹中，但可以用 `--outputFile` 或 `--outputFile.blob` 标志覆盖。
