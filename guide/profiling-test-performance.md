@@ -53,7 +53,7 @@ export default defineConfig({
 
 测试运行后，应该会生成 `test-runner-profile/*.cpuprofile` 和 `test-runner-profile/*.heapprofile` 文件。想要知道如何分析这些文件，可以仔细查看 [性能分析记录](#inspecting-profiling-records)。
 
-也可以看看 [性能分析 | 示例](https://github.com/vitest-dev/vitest/tree/main/examples/profiling) 。
+也可以看看 [性能分析 | 示例](https://github.com/vitest-dev/vitest/tree/main/examples/profiling)。
 
 ## 主线程 {#main-thread}
 
@@ -74,7 +74,7 @@ $ node --cpu-prof --cpu-prof-dir=main-profile ./node_modules/vitest/vitest.mjs -
 #               NodeJS arguments                                           Vitest arguments
 ```
 
-测试运行后会生成一个 `main-profile/*.cpuprofile` 文件。有关如何分析这些文件的说明，可以查看[检查分析记录](#inspecting-profiling-records)。
+测试运行后会生成一个 `main-profile/*.cpuprofile` 文件。有关如何分析这些文件的说明，可以查看 [检查分析记录](#inspecting-profiling-records)。
 
 ## 文件转换 {#file-transform}
 
@@ -109,17 +109,17 @@ test('formatter works', () => {
 })
 ```
 :::
-<!-- TODO: translation -->
-<img src="/module-graph-barrel-file.png" alt="Vitest UI demonstrating barrel file issues" />
 
-To see how files are transformed, you can open the "Module Info" view in the UI:
+<img src="/module-graph-barrel-file.png" alt="UI 模式展示的 Barrel 文件问题" />
 
-<img alt="The module info view for an inlined module" img-light src="/ui/light-module-info.png">
-<img alt="The module info view for an inlined module" img-dark src="/ui/dark-module-info.png">
+要查看文件转换情况，可在 UI 模式中打开 "Module Info" 视图。
 
-## File Import
+<img alt="内联模块的模块信息视图" img-light src="/ui/light-module-info.png">
+<img alt="内联模块的模块信息视图" img-dark src="/ui/dark-module-info.png">
 
-Some modules just take a long time to load. To identify which modules are the slowest, enable [`experimental.importDurations`](/config/experimental#experimental-importdurations) in your configuration:
+## 文件导入 {#file-import}
+
+某些模块加载耗时较长。要找出哪些模块最慢，请在配置中启用 [`experimental.importDurations`](/config/experimental#experimental-importdurations)：
 
 ```ts [vitest.config.ts]
 import { defineConfig } from 'vitest/config'
@@ -135,7 +135,7 @@ export default defineConfig({
 })
 ```
 
-This will print a breakdown of the slowest imports after your tests finish:
+测试完成后将输出耗时最长的导入项明细：
 
 ```bash
 Import Duration Breakdown (Top 10)
@@ -146,28 +146,29 @@ date-fns/index.js          500ms    500ms [████████████�
 src/utils/helpers.ts        10ms    120ms [████████░░░░░░░░░░░░]
 ```
 
-You can also use `--experimental.importDurations.print` from the CLI without changing your configuration:
+你也可以在不修改配置的情况下，通过CLI使用 `--experimental.importDurations.print` 参数：
 
 ```bash
 vitest --experimental.importDurations.print
 ```
 
-Once you've identified the slow modules, there are several strategies to speed up imports:
+识别出慢速模块后，可采用以下策略加速导入：
 
-### Use Specific Entry Points
+### 使用特定入口点 {#use-specific-entry-points}
 
-Many libraries ship multiple entry points. Importing the main entry point (which is often a [barrel file](https://vitejs.dev/guide/performance.html#avoid-barrel-files)) can pull in far more code than you need.
 
-For example, `date-fns` re-exports hundreds of functions from its main entry point. Instead of importing from the top-level module, import directly from the specific function:
+许多库提供多个入口点。从主入口点（通常是 [barrel 文件](https://vitejs.dev/guide/performance.html#avoid-barrel-files)）导入可能会加载远超实际需要的代码。
+
+例如，`date-fns` 从其主入口点重新导出了数百个函数。与其从顶层模块导入，不如直接从特定功能模块导入：
 
 ```ts
 import { format } from 'date-fns' // [!code --]
 import { format } from 'date-fns/format' // [!code ++]
 ```
 
-### Use `resolve.alias` to Redirect Imports
+### 使用 `resolve.alias` 重定向导入 {#use-resolve-alias-to-redirect-imports}
 
-If a dependency doesn't provide granular entry points, or if third-party code imports the heavy entry point, you can use [`resolve.alias`](https://vite.dev/config/shared-options#resolve-alias) to redirect imports to a lighter alternative:
+当依赖项未提供细粒度入口点，或第三方代码引用了重量级入口时，可通过 [`resolve.alias`](https://vite.dev/config/shared-options#resolve-alias) 将导入路径重定向至更轻量的替代方案：
 
 ```ts [vitest.config.ts]
 import { defineConfig } from 'vitest/config'
@@ -184,9 +185,9 @@ export default defineConfig({
 })
 ```
 
-### Use the Dependency Optimizer
+### 使用依赖优化器 {#use-the-dependency-optimizer}
 
-Vitest can bundle external libraries into a single file using [`deps.optimizer`](/config/deps#deps-optimizer), which reduces the overhead of importing packages with many internal modules:
+Vitest 可通过 [`deps.optimizer`](/config/deps#deps-optimizer) 将外部库打包为单个文件，从而降低导入包含大量内部模块的包时的开销：
 
 ```ts [vitest.config.ts]
 import { defineConfig } from 'vitest/config'
@@ -205,7 +206,7 @@ export default defineConfig({
 })
 ```
 
-This is especially effective for UI libraries and packages with deep import trees. Use `optimizer.ssr` for `node`/`edge` environments and `optimizer.client` for `jsdom`/`happy-dom` environments.
+这一优化对 UI 库和具有深层导入树的包特别有效。在 `node`/`edge` 环境中使用 `optimizer.ssr` 配置，在 `jsdom`/`happy-dom` 环境中则使用 `optimizer.client` 配置。
 
 ## 代码覆盖率 {#code-coverage}
 
